@@ -5,10 +5,12 @@ USER node
 WORKDIR /home/node
 
 COPY package*.json .
-RUN npm ci
+# RUN npm ci
+RUN npm i pnpm -g
+RUN pnpm istall
 
 COPY --chown=node:node . .
-RUN npm run build && npm prune --omit=dev
+RUN pnpm build && npm prune --omit=dev
 
 
 # Final run stage
