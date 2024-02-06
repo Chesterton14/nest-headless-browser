@@ -1,22 +1,18 @@
 # Build stage
-FROM node:lts-alpine AS builder
+FROM node:18-alpine as builder
 
 USER node
 WORKDIR /home/node
 
 COPY package*.json .
-COPY pnpm-lock.yaml .
-# RUN npm ci
-
-RUN \
-  npm i -g pnpm && \
-  pnpm install
+RUN npm ci
 
 COPY --chown=node:node . .
+RUN npm run build && npm prune --omit=dev
 
 
 # Final run stage
-FROM node:lts-alpine
+FROM node:18-alpine
 
 ENV NODE_ENV production
 USER node
@@ -25,7 +21,7 @@ WORKDIR /home/node
 COPY --from=builder --chown=node:node /home/node/package*.json .
 COPY --from=builder --chown=node:node /home/node/node_modules ./node_modules
 COPY --from=builder --chown=node:node /home/node/dist ./dist
-COPY --from=builder --chown=node:node /home/node/.cache ./cache
+COPY --from=builder --chown=node:node /home/node/.cache ./.cache
 
 ARG PORT
 EXPOSE ${PORT:-3000}
