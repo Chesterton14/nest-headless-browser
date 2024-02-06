@@ -2,6 +2,7 @@
 FROM node:18-slim as builder
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV NODE_ENV production
 
 RUN apt-get update && apt-get install gnupg wget -y && \
   wget --quiet --output-document=- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg && \
@@ -22,15 +23,15 @@ RUN npm run build && npm prune --omit=dev
 
 
 # Final run stage
-FROM node:18-slim
+# FROM node:18-slim
 
-ENV NODE_ENV production
-USER node
-WORKDIR /home/node
+# USER node
+# WORKDIR /home/node
 
-COPY --from=builder --chown=node:node /home/node/package*.json .
-COPY --from=builder --chown=node:node /home/node/node_modules ./node_modules
-COPY --from=builder --chown=node:node /home/node/dist ./dist
+# COPY --from=builder --chown=node:node /home/node/package*.json .
+# COPY --from=builder --chown=node:node /home/node/node_modules ./node_modules
+# COPY --from=builder --chown=node:node /home/node/dist ./dist
+# COPY --from=builder --chown=node:node /usr/bin/google-chrome /usr/bin/google-chrome
 
 ARG PORT
 EXPOSE ${PORT:-3000}
