@@ -5,8 +5,9 @@ USER node
 WORKDIR /home/node
 
 COPY package*.json .
+COPY pnpm-lock.yaml .
 # RUN npm ci
-RUN sudo npm i pnpm -g
+RUN sudo npm i -g pnpm
 RUN pnpm install
 
 COPY --chown=node:node . .
