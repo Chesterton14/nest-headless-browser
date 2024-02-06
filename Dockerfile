@@ -16,12 +16,12 @@ RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
   && chown -R pptruser:pptruser /app
 
 USER pptruser
-WORKDIR /home/node
+WORKDIR /home/pptruser
 
 COPY package*.json .
 RUN npm ci
 
-COPY --chown=node:node . .
+COPY --chown=pptruser:pptruser . .
 RUN npm run build && npm prune --omit=dev
 
 
@@ -30,12 +30,12 @@ FROM node:18-alpine
 
 ENV NODE_ENV production
 USER pptruser
-WORKDIR /home/node
+WORKDIR /home/pptruser
 
-COPY --from=builder --chown=node:node /home/node/package*.json .
-COPY --from=builder --chown=node:node /home/node/node_modules ./node_modules
-COPY --from=builder --chown=node:node /home/node/dist ./dist
-COPY --from=builder --chown=node:node /home/node/.cache ./.cache
+COPY --from=builder --chown=pptruser:pptruser /home/pptruser/package*.json .
+COPY --from=builder --chown=pptruser:pptruser /home/pptruser/node_modules ./node_modules
+COPY --from=builder --chown=pptruser:pptruser /home/pptruser/dist ./dist
+COPY --from=builder --chown=pptruser:pptruser /home/pptruser/.cache ./.cache
 
 ARG PORT
 EXPOSE ${PORT:-3000}
