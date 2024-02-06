@@ -10,18 +10,14 @@ RUN apk add --no-cache \
   ttf-freefont 
 
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
-RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
-  && mkdir -p /home/pptruser/Downloads /app \
-  && chown -R pptruser:pptruser /home/pptruser \
-  && chown -R pptruser:pptruser /app
 
-USER pptruser
-WORKDIR /home/pptruser
+USER node
+WORKDIR /home/node
 
 COPY package*.json .
 RUN npm ci
 
-COPY --chown=pptruser:pptruser . .
+COPY --chown=node:node . .
 RUN npm run build && npm prune --omit=dev
 
 
@@ -29,13 +25,12 @@ RUN npm run build && npm prune --omit=dev
 FROM node:18-alpine
 
 ENV NODE_ENV production
-USER pptruser
-WORKDIR /home/pptruser
+USER node
+WORKDIR /home/node
 
-COPY --from=builder --chown=pptruser:pptruser /home/pptruser/package*.json .
-COPY --from=builder --chown=pptruser:pptruser /home/pptruser/node_modules ./node_modules
-COPY --from=builder --chown=pptruser:pptruser /home/pptruser/dist ./dist
-# COPY --from=builder --chown=pptruser:pptruser /home/pptruser/.cache ./.cache
+COPY --from=builder --chown=node:node /home/node/package*.json .
+COPY --from=builder --chown=node:node /home/node/node_modules ./node_modules
+COPY --from=builder --chown=node:node /home/node/dist ./dist
 
 ARG PORT
 EXPOSE ${PORT:-3000}
