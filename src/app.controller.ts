@@ -8,6 +8,7 @@ async function getBrowser() {
   if (!browser) {
     browser = await puppeteer.launch({
       headless: true,
+      executablePath: '/usr/bin/google-chrome',
     });
   }
   return browser;
