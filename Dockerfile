@@ -10,7 +10,6 @@ RUN apk add --no-cache \
   ttf-freefont 
 
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
-RUN npm i puppeteer
 RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
   && mkdir -p /home/pptruser/Downloads /app \
   && chown -R pptruser:pptruser /home/pptruser \
