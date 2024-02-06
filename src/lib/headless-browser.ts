@@ -47,5 +47,9 @@ export async function bootBrowserLessWsEndpointProxyServer() {
     console.log('bootBrowserLessWsEndpointProxyServer Error', err);
   });
 
+  proxy.on('data', function () {
+    console.log('bootBrowserLessWsEndpointProxyServer on data');
+  });
+
   return `ws://${host}:${port}`;
 }
