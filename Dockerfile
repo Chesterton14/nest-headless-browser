@@ -7,11 +7,12 @@ WORKDIR /home/node
 COPY package*.json .
 COPY pnpm-lock.yaml .
 # RUN npm ci
-RUN sudo npm i -g pnpm
-RUN pnpm install
+
+RUN \
+  npm i -g pnpm && \
+  pnpm install
 
 COPY --chown=node:node . .
-RUN pnpm build && npm prune --omit=dev
 
 
 # Final run stage
