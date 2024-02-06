@@ -1,5 +1,5 @@
 # Build stage
-FROM node:18-alpine as builder
+FROM node:18-slim as builder
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
@@ -23,7 +23,7 @@ RUN npm run build && npm prune --omit=dev
 
 
 # Final run stage
-FROM node:18-alpine
+FROM node:18-slim
 
 ENV NODE_ENV production
 USER node
