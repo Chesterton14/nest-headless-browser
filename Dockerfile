@@ -1,6 +1,9 @@
 # Build stage
 FROM node:18-slim as builder
 
+USER node
+WORKDIR /home/node
+
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 ENV NODE_ENV production
 
@@ -11,16 +14,11 @@ RUN apt-get update && apt-get install gnupg wget -y && \
   apt-get install google-chrome-stable -y --no-install-recommends && \
   rm -rf /var/lib/apt/lists/*
 
-
-USER node
-WORKDIR /home/node
-
 COPY package*.json .
 RUN npm ci
 
 COPY --chown=node:node . .
-RUN npm run build && npm prune --omit=dev
-
+RUN npm run build
 
 # Final run stage
 # FROM node:18-slim
