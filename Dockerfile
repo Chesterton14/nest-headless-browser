@@ -35,7 +35,7 @@ WORKDIR /home/pptruser
 COPY --from=builder --chown=pptruser:pptruser /home/pptruser/package*.json .
 COPY --from=builder --chown=pptruser:pptruser /home/pptruser/node_modules ./node_modules
 COPY --from=builder --chown=pptruser:pptruser /home/pptruser/dist ./dist
-COPY --from=builder --chown=pptruser:pptruser /home/pptruser/.cache ./.cache
+# COPY --from=builder --chown=pptruser:pptruser /home/pptruser/.cache ./.cache
 
 ARG PORT
 EXPOSE ${PORT:-3000}
