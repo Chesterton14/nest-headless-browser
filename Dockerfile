@@ -6,8 +6,8 @@ WORKDIR /home/node
 
 COPY package*.json .
 # RUN npm ci
-RUN npm i pnpm -g
-RUN pnpm istall
+RUN sudo npm i pnpm -g
+RUN pnpm install
 
 COPY --chown=node:node . .
 RUN pnpm build && npm prune --omit=dev
