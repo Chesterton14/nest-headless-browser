@@ -66,5 +66,9 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "packageManager": "pnpm@8.4.0"
 }
