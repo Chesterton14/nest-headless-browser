@@ -1,7 +1,22 @@
 # Build stage
 FROM node:18-alpine as builder
 
-USER node
+RUN apk add --no-cache \
+  chromium \
+  nss \
+  freetype \
+  harfbuzz \
+  ca-certificates \
+  ttf-freefont \
+
+  ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+RUN npm i puppeteer
+RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
+  && mkdir -p /home/pptruser/Downloads /app \
+  && chown -R pptruser:pptruser /home/pptruser \
+  && chown -R pptruser:pptruser /app
+
+USER pptruser
 WORKDIR /home/node
 
 COPY package*.json .
@@ -15,7 +30,7 @@ RUN npm run build && npm prune --omit=dev
 FROM node:18-alpine
 
 ENV NODE_ENV production
-USER node
+USER pptruser
 WORKDIR /home/node
 
 COPY --from=builder --chown=node:node /home/node/package*.json .
