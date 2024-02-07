@@ -1,7 +1,7 @@
 FROM node:18 as builder
 
 RUN apt-get update \
- && apt-get -y install libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev
+ && apt-get -y install libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev libasound2
 
 RUN npm i pnpm@8.4.0 -g
 
