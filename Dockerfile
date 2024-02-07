@@ -1,4 +1,4 @@
-FROM node:18-alpine as builder
+FROM node:18 as builder
 
 RUN npm i pnpm@8.4.0 -g
 
