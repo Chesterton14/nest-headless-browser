@@ -1,6 +1,6 @@
 FROM node:18 as builder
 
-RUN apt install libnss libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev
+RUN apt install libnss
 
 RUN npm i pnpm@8.4.0 -g
 
