@@ -1,25 +1,14 @@
 import { Logger } from '@nestjs/common';
-import puppeteer, { Browser, PuppeteerLaunchOptions } from 'puppeteer';
+import puppeteer, { Browser } from 'puppeteer';
 import HttpProxy = require('http-proxy');
 
 let browser: Browser;
 
 async function getBrowser() {
   if (!browser) {
-    const options: PuppeteerLaunchOptions =
-      process.env.NODE_ENV === 'production'
-        ? {
-            headless: 'shell',
-            executablePath: '/usr/bin/google-chrome',
-            args: [
-              '--disable-gpu',
-              '--disable-dev-shm-usage',
-              '--disable-setuid-sandbox',
-              '--no-sandbox',
-            ],
-          }
-        : { headless: true };
-    browser = await puppeteer.launch(options);
+    browser = await puppeteer.launch({
+      headless: 'shell',
+    });
   }
   return browser;
 }
