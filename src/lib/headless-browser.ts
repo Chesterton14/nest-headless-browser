@@ -9,7 +9,7 @@ async function getBrowser() {
     const options: PuppeteerLaunchOptions =
       process.env.NODE_ENV === 'production'
         ? {
-            headless: true,
+            headless: 'shell',
             // executablePath: '/usr/bin/google-chrome',
             // args: [
             //   '--disable-gpu',
