@@ -1,6 +1,6 @@
 FROM node:18 as builder
 
-RUN apt install libnss
+RUN apt-get install libasound2
 
 RUN npm i pnpm@8.4.0 -g
 
