@@ -10,15 +10,15 @@ async function getBrowser() {
       process.env.NODE_ENV === 'production'
         ? {
             headless: 'shell',
-            executablePath: '/usr/bin/google-chrome',
-            args: [
-              '--disable-gpu',
-              '--disable-dev-shm-usage',
-              '--disable-setuid-sandbox',
-              '--no-sandbox',
-            ],
+            // executablePath: '/usr/bin/google-chrome',
+            // args: [
+            //   '--disable-gpu',
+            //   '--disable-dev-shm-usage',
+            //   '--disable-setuid-sandbox',
+            //   '--no-sandbox',
+            // ],
           }
-        : { headless: true };
+        : { headless: 'shell' };
     browser = await puppeteer.launch(options);
   }
   return browser;
