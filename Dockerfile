@@ -1,7 +1,7 @@
 FROM node:18 as builder
 
 RUN apt-get update \
- && apt-get install libasound2
+ && apt-get -y install libasound2
 
 RUN npm i pnpm@8.4.0 -g
 
