@@ -1,5 +1,6 @@
-import HttpProxy = require('http-proxy');
+import { Logger } from '@nestjs/common';
 import puppeteer, { Browser, PuppeteerLaunchOptions } from 'puppeteer';
+import HttpProxy = require('http-proxy');
 
 let browser: Browser;
 
@@ -23,34 +24,34 @@ async function getBrowser() {
   return browser;
 }
 
-export async function getBrowserLessWsEndpoint() {
+async function getBrowserLessWsEndpoint() {
   const browser = await getBrowser();
   const browserWSEndpoint = browser.wsEndpoint();
   await browser.disconnect();
   return browserWSEndpoint;
 }
 
-export async function bootBrowserLessWsEndpointProxyServer() {
-  const browser = await getBrowser();
-  const browserWSEndpoint = browser.wsEndpoint();
-  const host = '0.0.0.0';
-  const port = 8081;
+const HOST = '0.0.0.0';
+const PORT = 8081;
 
-  const proxy = await HttpProxy.createServer({
+export async function bootBrowserLessWsEndpointProxyServer() {
+  const browserWSEndpoint = await getBrowserLessWsEndpoint();
+
+  const proxy = HttpProxy.createServer({
     target: browserWSEndpoint,
     ws: true,
-    localAddress: host,
+    localAddress: HOST,
   });
 
-  proxy.listen(port);
+  proxy.listen(PORT);
 
-  proxy.on('error', function (err) {
-    console.log('bootBrowserLessWsEndpointProxyServer Error', err);
+  proxy.on('error', (err) => {
+    Logger.log('bootBrowserLessWsEndpointProxyServer Error', err);
   });
 
-  proxy.on('data', function () {
-    console.log('bootBrowserLessWsEndpointProxyServer on data');
+  proxy.on('start', (req, res, targe) => {
+    Logger.log('bootBrowserLessWsEndpointProxyServer Start', targe);
   });
 
-  return `ws://${host}:${port}`;
+  return `ws://${HOST}:${PORT}`;
 }
