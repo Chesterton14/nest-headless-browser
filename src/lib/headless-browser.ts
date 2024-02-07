@@ -1,13 +1,14 @@
 import HttpProxy = require('http-proxy');
-import puppeteer, { Browser } from 'puppeteer';
+import puppeteer, { Browser, PuppeteerLaunchOptions } from 'puppeteer';
 
 let browser: Browser;
 
 async function getBrowser() {
   if (!browser) {
-    const options =
+    const options: PuppeteerLaunchOptions =
       process.env.NODE_ENV === 'production'
         ? {
+            headless: 'shell',
             executablePath: '/usr/bin/google-chrome',
             args: [
               '--disable-gpu',
