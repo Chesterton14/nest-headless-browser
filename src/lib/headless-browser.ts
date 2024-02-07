@@ -11,12 +11,12 @@ async function getBrowser() {
         ? {
             headless: 'shell',
             // executablePath: '/usr/bin/google-chrome',
-            // args: [
-            //   '--disable-gpu',
-            //   '--disable-dev-shm-usage',
-            //   '--disable-setuid-sandbox',
-            //   '--no-sandbox',
-            // ],
+            args: [
+              '--disable-gpu',
+              '--disable-dev-shm-usage',
+              '--disable-setuid-sandbox',
+              '--no-sandbox',
+            ],
           }
         : { headless: 'shell' };
     browser = await puppeteer.launch(options);
