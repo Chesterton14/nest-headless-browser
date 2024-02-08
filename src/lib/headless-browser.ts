@@ -24,7 +24,7 @@ async function getBrowser() {
   return browser;
 }
 
-async function getBrowserLessWsEndpoint() {
+export async function getBrowserLessWsEndpoint() {
   const browser = await getBrowser();
   const browserWSEndpoint = browser.wsEndpoint();
   await browser.disconnect();
@@ -35,7 +35,8 @@ const HOST = '0.0.0.0';
 const PORT = 8081;
 
 export async function bootBrowserLessWsEndpointProxyServer() {
-  const browserWSEndpoint = await getBrowserLessWsEndpoint();
+  const browser = await getBrowser();
+  const browserWSEndpoint = browser.wsEndpoint();
 
   const proxy = HttpProxy.createServer({
     target: browserWSEndpoint,
