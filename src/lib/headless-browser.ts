@@ -48,6 +48,7 @@ export async function bootBrowserLessWsEndpointProxyServer() {
 
   proxy.on('error', (err) => {
     Logger.log('bootBrowserLessWsEndpointProxyServer Error', err);
+    getBrowser();
   });
 
   proxy.on('start', (req, res, targe) => {
