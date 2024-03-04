@@ -32,7 +32,7 @@ export async function getBrowserLessWsEndpoint() {
 }
 
 const HOST = '0.0.0.0';
-const PORT = 8081;
+const PORT = 3000;
 
 export async function bootBrowserLessWsEndpointProxyServer() {
   const browser = await getBrowser();
