@@ -1,7 +1,4 @@
-# Build stage
-FROM node:18-slim as builder
-
-
+FROM node:18-slim
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
@@ -22,18 +19,7 @@ COPY --chown=node:node . .
 RUN npm run build
 ENV NODE_ENV production
 
-# Final run stage
-# FROM node:18-slim
-
-# USER node
-# WORKDIR /home/node
-
-# COPY --from=builder --chown=node:node /home/node/package*.json .
-# COPY --from=builder --chown=node:node /home/node/node_modules ./node_modules
-# COPY --from=builder --chown=node:node /home/node/dist ./dist
-# COPY --from=builder --chown=node:node /usr/bin/google-chrome /usr/bin/google-chrome
-
-ARG PORT
-EXPOSE ${PORT:-3000}
+EXPOSE 3000
+EXPOSE 8081
 
 CMD ["node", "dist/main.js"]
